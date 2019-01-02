@@ -1,6 +1,10 @@
 import os
 from enum import Enum
 
+const = {
+    'SRID': '4326'
+}
+
 ENV = Enum('Env', ('development', 'production', 'test'))
 APP_TYPE = Enum('AppType', ('web_api', 'worker', 'channel'))
 

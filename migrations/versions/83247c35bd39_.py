@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6fae85570d68
+Revision ID: 83247c35bd39
 Revises: 
-Create Date: 2019-01-02 12:42:50.361271
+Create Date: 2019-01-02 23:24:50.450490
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import geoalchemy2
 
 
 # revision identifiers, used by Alembic.
-revision = '6fae85570d68'
+revision = '83247c35bd39'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,8 +23,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('city', sa.String(length=16), nullable=True),
     sa.Column('grid_id', sa.String(length=16), nullable=True),
-    sa.Column('center', geoalchemy2.types.Geometry(geometry_type='POINT'), nullable=True),
-    sa.Column('box', geoalchemy2.types.Geometry(geometry_type='POLYGON'), nullable=True),
+    sa.Column('center', geoalchemy2.types.Geometry(geometry_type='POINT', srid=4326), nullable=True),
+    sa.Column('box', geoalchemy2.types.Geometry(geometry_type='POLYGON', srid=4326), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

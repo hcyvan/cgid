@@ -14,10 +14,21 @@ _change the content of env.py_
 FLASK_APP=application FLASK_ENV=development flask run
 ```
 
+## API
+```bash
+/api/populationInsights?lng=116&lat=39.9&week=20180903
+```
+
 ## Data
 ```bash
-FLASK_APP=wrapper.py flask csv2sql
-FLASK_APP=wrapper.py flask insert-sql ./data/map_grid.sql
+export FLASK_APP=wrapper.py
+
+flask db init
+flask db migrate
+flask db upgrade
+
+flask csv2sql
+flask insert-sql ./data/map_grid.sql
 ```
 
 
@@ -48,3 +59,8 @@ docker run -p 80:80 -e "PGADMIN_DEFAULT_EMAIL=user@domain.com" -e "PGADMIN_DEFAU
 
 ## Other
 + WGS84 SRID:4326
+
+## Question
++ map_grid表center字段是否必须?
++ week字段是每周第一天?怎么定位到这个字符串?
++ grid_id字段中'-1'需要特别注意么?
