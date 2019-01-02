@@ -1,4 +1,8 @@
 .idea/
 __pycache__/
+data/
 venv
 env.py
+!migrations/env.py
+sql
+!sql/truncate_table.sql

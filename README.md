@@ -3,15 +3,21 @@
 ## Develop Environment
 #### add config
 
-```
+```bash
 cd <project root>
 cp config/dev.tpl.py env.py 
 ```
 _change the content of env.py_
 
 #### run app
-```
+```bash
 FLASK_APP=application FLASK_ENV=development flask run
+```
+
+## Data
+```bash
+FLASK_APP=wrapper.py flask csv2sql
+FLASK_APP=wrapper.py flask insert-sql ./data/map_grid.sql
 ```
 
 
@@ -38,3 +44,7 @@ docker run -it --rm --network local-lc mdillon/postgis:10 psql -h 172.18.0.10 -U
 docker pull dpage/pgadmin4:3.6
 docker run -p 80:80 -e "PGADMIN_DEFAULT_EMAIL=user@domain.com" -e "PGADMIN_DEFAULT_PASSWORD=123456" -d dpage/pgadmin4:3.6
 ```
+
+
+## Other
++ WGS84 SRID:4326
