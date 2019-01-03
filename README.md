@@ -27,8 +27,8 @@ flask db init
 flask db migrate
 flask db upgrade
 
-flask csv2sql
-flask insert-sql ./data/map_grid.sql
+> python3 csv2sql.py
+> cat ./data/grid.sql |docker exec -i local-postgis psql -U postgres -d postgres
 ```
 
 

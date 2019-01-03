@@ -1,0 +1,21 @@
+# csv数据文档
+
+## 文件命名
+csv数据按照每周每城市组织,一批包含**6**个文件, 例如, 北京某周的数据包括:
++ V0110000_20180903_grid.csv
++ V0110000_20180903_stay.csv
++ V0110000_20180903_mobilePhone.csv
++ V0110000_20180903_consumption.csv
++ V0110000_20180903_humanTraffic.csv
++ V0110000_20180903_insight.csv
+### 格式
+```
+<city>_<grid_id>_<table_name>.csv
+```
+### table_name字段
++ grid: map_grid.csv
++ stay: 逗留时长分析.csv
++ mobilePhone: 目标区域内人群手机型号分布.csv
++ consumption: 目标区域内人群消费能力.csv
++ humanTraffic: 目标区域人流量监测分析.csv
++ insight: 人口区域洞察分析.csv

@@ -1,17 +1,17 @@
 """empty message
 
-Revision ID: 83247c35bd39
+Revision ID: 20729caddd28
 Revises: 
-Create Date: 2019-01-02 23:24:50.450490
+Create Date: 2019-01-03 23:46:22.235922
 
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 import geoalchemy2
 
-
 # revision identifiers, used by Alembic.
-revision = '83247c35bd39'
+revision = '20729caddd28'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,8 +23,12 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('city', sa.String(length=16), nullable=True),
     sa.Column('grid_id', sa.String(length=16), nullable=True),
-    sa.Column('center', geoalchemy2.types.Geometry(geometry_type='POINT', srid=4326), nullable=True),
     sa.Column('box', geoalchemy2.types.Geometry(geometry_type='POLYGON', srid=4326), nullable=True),
+    sa.Column('stay', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('mobile_phone', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('consumption', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('human_traffic', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('insight', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
