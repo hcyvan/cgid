@@ -16,7 +16,8 @@ FLASK_APP=application FLASK_ENV=development flask run
 
 ## API
 ```bash
-/api/populationInsights?lng=116&lat=39.9&week=20180903
+http://localhost:5000/api/populationInsights?lng=116.885482&lat=39.716071116&week=20180903
+http://localhost:5000/api/populationInsights?lng=117.526198&lat=40.663529&week=20180903
 ```
 
 ## Data
