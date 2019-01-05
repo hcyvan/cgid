@@ -1,8 +1,12 @@
+import time
+import datetime
+
 from flask import Blueprint, request, jsonify
 from sqlalchemy import func
 
 from .model import Grid
 from config import const
+from .helper import timestamp2label
 
 api = Blueprint('api', __name__)
 
@@ -11,6 +15,9 @@ api = Blueprint('api', __name__)
 def get_data():
     lng = request.args.get('lng')
     lat = request.args.get('lat')
+    ts = request.args.get('ts')
+    ts = timestamp2label(ts)
+
     grid = Grid.query.filter(func.ST_Contains(
         Grid.box, 'SRID={};POINT({} {})'.format(const.get('SRID'), lng, lat))).first()
 

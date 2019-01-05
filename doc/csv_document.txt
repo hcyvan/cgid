@@ -1,21 +1,55 @@
 # csv数据文档
 
 ## 文件命名
-csv数据按照每周每城市组织,一批包含**6**个文件, 例如, 北京某周的数据包括:
-+ V0110000_20180903_grid.csv
-+ V0110000_20180903_stay.csv
-+ V0110000_20180903_mobilePhone.csv
-+ V0110000_20180903_consumption.csv
-+ V0110000_20180903_humanTraffic.csv
-+ V0110000_20180903_insight.csv
+每个城市的数据包括,**1**个网格文件(xxx_gird.csv)和每周的**5**个数据文件
+
 ### 格式
 ```
-<city>_<grid_id>_<table_name>.csv
+网格文件:
+<city>_grid.csv
+数据文件:
+<city>_<week_label>_<table_name>.csv
 ```
-### table_name字段
-+ grid: map_grid.csv
+
+#### 数据文件 table_name 字段
 + stay: 逗留时长分析.csv
 + mobilePhone: 目标区域内人群手机型号分布.csv
 + consumption: 目标区域内人群消费能力.csv
 + humanTraffic: 目标区域人流量监测分析.csv
 + insight: 人口区域洞察分析.csv
+
+#### 数据文件 week 字段
+时间戳转换成北京时间后,所在周的周一的年,月,日的拼接.
+
+### 样例
+例如, 北京某周的数据包括:
+
+```
+V0110000_grid.csv (城市首次跟新数据提供)
+V0110000_20180903_stay.csv
+V0110000_20180903_mobilePhone.csv
+V0110000_20180903_consumption.csv
+V0110000_20180903_humanTraffic.csv
+V0110000_20180903_insight.csv
+```
+
+北京全部数据包括
+
+```
+网格文件:
+V0110000_grid.csv (城市首次跟新数据提供)
+数据文件:
+week: 20180903
+    V0110000_20180903_stay.csv
+    V0110000_20180903_mobilePhone.csv
+    V0110000_20180903_consumption.csv
+    V0110000_20180903_humanTraffic.csv
+    V0110000_20180903_insight.csv
+week: 20180910
+    V0110000_20180910_stay.csv
+    V0110000_20180910_mobilePhone.csv
+    V0110000_20180910_consumption.csv
+    V0110000_20180910_humanTraffic.csv
+    V0110000_20180910_insight.csv
+week: ...
+```
