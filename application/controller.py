@@ -1,10 +1,7 @@
-import time
-import datetime
-
 from flask import Blueprint, request, jsonify
 from sqlalchemy import func
 
-from .model import Grid
+from .model import Grid, Detail
 from config import const
 from .helper import timestamp2label
 
@@ -16,36 +13,27 @@ def get_data():
     lng = request.args.get('lng')
     lat = request.args.get('lat')
     ts = request.args.get('ts')
-    ts = timestamp2label(ts)
+    week = timestamp2label(ts)
 
     grid = Grid.query.filter(func.ST_Contains(
         Grid.box, 'SRID={};POINT({} {})'.format(const.get('SRID'), lng, lat))).first()
 
-    if grid:
-        if grid.stay:
-            grid.stay.pop('week')
-        if grid.mobile_phone:
-            for i, _ in enumerate(grid.mobile_phone):
-                grid.mobile_phone[i].pop('week')
-        if grid.consumption:
-            grid.consumption.pop('week')
-        if grid.human_traffic:
-            grid.human_traffic.pop('week')
-        if grid.insight:
-            grid.insight.pop('week')
-        ret = dict(
-            code=0,
-            data=dict(
-                stay=grid.stay,
-                mobile_phone=grid.mobile_phone,
-                consumption=grid.consumption,
-                human_tranffic=grid.human_traffic,
-                insight=grid.insight
-            )
-        )
-    else:
+    if not grid:
         ret = dict(
             code=1001,
             msg='不具备访问该坐标的权限'
         )
+    else:
+        detail = Detail.query.filter_by(city=grid.city, grid_id=grid.grid_id, week=week).first()
+        ret = dict(
+            code=0,
+            data=dict(
+                stay=detail.stay,
+                mobile_phone=detail.mobile_phone,
+                consumption=detail.consumption,
+                human_tranffic=detail.human_traffic,
+                insight=detail.insight
+            )
+        )
+
     return jsonify(ret)
