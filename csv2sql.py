@@ -62,7 +62,7 @@ def create_detail(city, week, cut, input_dir='./', output_dir='./'):
     grid_file = os.path.join(input_dir, '{}_grid.csv'.format(city))
     sql_file = os.path.join(output_dir, '{}_{}_detail.sql'.format(city, week))
 
-    tables = ['stay', 'insight', 'humanTraffic', 'consumption', 'mobilePhone']
+    tables = ['stay', 'insight', 'humanTraffic', 'consumption', 'mobilePhone', 'internet']
     files = [os.path.join(input_dir, '{}_{}_{}.csv'.format(city, week, x)) for x in tables]
 
     def find_grid_detail(dictionary, city, grid_id):
@@ -81,11 +81,13 @@ def create_detail(city, week, cut, input_dir='./', output_dir='./'):
     human_traffic_dict = get_dict(files[2])
     consumption_dict = get_dict(files[3])
     mobile_phone_dict = get_dict(files[4], value_type='list')
+    internet_dict = get_dict(files[5], value_type='list')
     # stay_dict = {}
     # insight_dict = {}
     # human_traffic_dict = {}
     # consumption_dict = {}
     # mobile_phone_dict = {}
+    # internet_dict = {}
 
     header = 'INSERT INTO detail (city, grid_id, week, stay, human_traffic, insight, consumption, mobile_phone) VALUES'
     with open(grid_file) as fi:
@@ -110,13 +112,14 @@ def create_detail(city, week, cut, input_dir='./', output_dir='./'):
                     human_traffic = find_grid_detail(human_traffic_dict, city, grid_id)
                     consumption = find_grid_detail(consumption_dict, city, grid_id)
                     mobile_phone = find_grid_detail(mobile_phone_dict, city, grid_id)
+                    internet = find_grid_detail(internet_dict, city, grid_id)
                     if stay or insight or human_traffic or consumption or mobile_phone:
                         stay = stay if stay else '{}'
                         insight = insight if insight else '{}'
                         human_traffic = human_traffic if human_traffic else '{}'
                         consumption = consumption if consumption else '{}'
                         mobile_phone = mobile_phone if mobile_phone else '[]'
-                        sql = "('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}'),\n".format(
+                        sql = "('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}'),\n".format(
                             row['city'],
                             row['grid_id'],
                             week,
@@ -124,7 +127,8 @@ def create_detail(city, week, cut, input_dir='./', output_dir='./'):
                             insight,
                             human_traffic,
                             consumption,
-                            mobile_phone)
+                            mobile_phone,
+                            internet)
                         fo.write(sql.encode())
                 fo.seek(-(len(os.linesep) + 1), os.SEEK_END)
                 fo.write(';\n'.encode())

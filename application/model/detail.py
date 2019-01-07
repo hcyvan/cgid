@@ -15,5 +15,6 @@ class Detail(BaseModel):
     human_traffic = Column(JSONB)
     consumption = Column(JSONB)
     mobile_phone = Column(JSONB)
+    internet = Column(JSONB)
 
 
