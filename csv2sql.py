@@ -89,7 +89,7 @@ def create_detail(city, week, cut, input_dir='./', output_dir='./'):
     # mobile_phone_dict = {}
     # internet_dict = {}
 
-    header = 'INSERT INTO detail (city, grid_id, week, stay, human_traffic, insight, consumption, mobile_phone) VALUES'
+    header = 'INSERT INTO detail (city, grid_id, week, stay, human_traffic, insight, consumption, mobile_phone, internet) VALUES'
     with open(grid_file) as fi:
         rows = [x for x in csv.DictReader(fi)]
         row_num = len(rows)
@@ -119,6 +119,7 @@ def create_detail(city, week, cut, input_dir='./', output_dir='./'):
                         human_traffic = human_traffic if human_traffic else '{}'
                         consumption = consumption if consumption else '{}'
                         mobile_phone = mobile_phone if mobile_phone else '[]'
+                        internet = internet if internet else '[]'
                         sql = "('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}'),\n".format(
                             row['city'],
                             row['grid_id'],
