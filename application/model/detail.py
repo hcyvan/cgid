@@ -6,9 +6,9 @@ from .base import BaseModel
 
 class Detail(BaseModel):
     id = Column(Integer, primary_key=True)
-    city = Column(String(16))
-    grid_id = Column(String(16))
-    week = Column(String(16))
+    city = Column(String(16), index=True)
+    grid_id = Column(String(16), index=True)
+    week = Column(String(16), index=True)
 
     stay = Column(JSONB)
     insight = Column(JSONB)

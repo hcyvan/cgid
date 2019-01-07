@@ -1,5 +1,12 @@
 import time
 import datetime
+import hashlib
+
+
+def get_token(cid, password, timestamp):
+    h = hashlib.sha256()
+    h.update((cid + password + str(timestamp)).encode())
+    return h.hexdigest()
 
 
 def timestamp2week_label(ts):

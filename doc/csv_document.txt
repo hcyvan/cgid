@@ -1,7 +1,7 @@
 # csv数据文档
 
 ## 文件命名
-每个城市的数据包括,**1**个网格文件(xxx_gird.csv)和每周的**5**个数据文件
+每个城市的数据包括,**1**个网格文件(xxx_gird.csv)和每周的**6**个数据文件
 
 ### 格式
 ```
@@ -17,6 +17,7 @@
 + consumption: 目标区域内人群消费能力.csv
 + humanTraffic: 目标区域人流量监测分析.csv
 + insight: 人口区域洞察分析.csv
++ internet: 目标区域内区域人群上网兴趣偏好.csv
 
 #### 数据文件 week 字段
 时间戳转换成北京时间后,所在周的周一的年,月,日的拼接.
@@ -31,6 +32,7 @@ V0110000_20180903_mobilePhone.csv
 V0110000_20180903_consumption.csv
 V0110000_20180903_humanTraffic.csv
 V0110000_20180903_insight.csv
+V0110000_20180903_internet.csv
 ```
 
 北京全部数据包括
@@ -45,11 +47,13 @@ week: 20180903
     V0110000_20180903_consumption.csv
     V0110000_20180903_humanTraffic.csv
     V0110000_20180903_insight.csv
+    V0110000_20180903_internet.csv
 week: 20180910
     V0110000_20180910_stay.csv
     V0110000_20180910_mobilePhone.csv
     V0110000_20180910_consumption.csv
     V0110000_20180910_humanTraffic.csv
     V0110000_20180910_insight.csv
+    V0110000_20180910_internet.csv
 week: ...
 ```
