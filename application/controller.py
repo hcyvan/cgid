@@ -45,7 +45,7 @@ def get_data():
         access = Access(cid=cid, day=day, count=1)
         access.save()
     else:
-        if access.count > 5000:
+        if access.count > current_app.config['MAX_DAY_ACCESS']:
             return jsonify(dict(
                 code=1021,
                 msg='visits overflow'
