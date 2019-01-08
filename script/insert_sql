@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+POSITIONAL=()
+
+PG=local-postgis
+I_DIR=./data/tar
+
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case ${key} in
+        -d|--database)
+            PG="$2"
+            shift
+            shift
+            ;;
+        -i|--input-dir)
+            I_DIR="$2"
+            shift
+            shift
+            ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+            ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}"
+
+WARNING="Usage: <script> grid|detail city [week1 week2 ...]"
+
+if [[ $# -lt 2 ]]; then
+    echo "$WARNING"
+    exit 1
+fi
+
+city=$2
+case "$1" in
+    grid)
+        gunzip -c "${I_DIR}/${city}_grid.sql.gz" |docker exec -i ${PG} psql -U postgres -d postgres
+        ;;
+    detail)
+        if [[ $# -lt 3 ]]; then
+            echo "$WARNING"
+            exit 1
+        fi
+        for week in "${@:3}"; do
+            tar_file="${I_DIR}/${city}_${week}_detail.sql.tar.gz"
+            echo "Handling $tar_file ..."
+            tar tf ${tar_file}  | while read line; do
+                echo "...insert ${line}"
+                tar xzOf ${tar_file} ${line}|docker exec -i ${PG} psql -U postgres -d postgres
+            done
+        done
+        ;;
+    *)
+        echo "$WARNING"
+        exit 1
+        ;;
+esac

@@ -27,7 +27,7 @@ def exec_sql_file(sql_file):
 
 @app.cli.command()
 def clear_data():
-    exec_sql_file('./sql/truncate_table.sql')
+    exec_sql_file('./script/truncate_table.sql')
 
 
 @app.cli.command('add-user')

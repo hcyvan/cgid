@@ -3,13 +3,17 @@
 set -eu
 
 readonly city=V0110000
-readonly week=20180903
-readonly I_DIR=./data
-readonly O_DIR=./tar
+#readonly week=20181029
+readonly week=20181105
+#readonly week=20181112
+#readonly week=20181119
+#readonly week=20181126
+readonly I_DIR=./data/sql
+readonly O_DIR=./data/tar
+
 
 readonly SQL_FILES="${city}_${week}_detail_*.sql"
 readonly TAR_FILE="${O_DIR}/${city}_${week}_detail.sql.tar.gz"
-
 readonly GRID_FILE="${I_DIR}/${city}_grid.sql"
 readonly GZ_GRID_FILE="${O_DIR}/${city}_grid.sql.gz"
 

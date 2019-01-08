@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import sys
 import csv
@@ -24,9 +26,10 @@ def get_row_num(file_name):
 def get_dict(file_path, value_type='object'):
     print('Reading {}'.format(file_path))
     data = dict()
+    city = os.path.basename(file_path).split('_')[0]
     with open(file_path) as f:
         for row in csv.DictReader(f):
-            key = '{}_{}'.format(row['city'], row['grid_id'])
+            key = '{}_{}'.format(city, row['grid_id'])
             row.pop('city', None)
             row.pop('grid_id', None)
             row.pop('week', None)
@@ -140,7 +143,10 @@ def grid(arg):
 
 
 def detail(arg):
-    create_detail(arg.city, arg.week, arg.cut, arg.input_dir, arg.output_dir)
+    pass
+    for week in arg.week:
+        print('Handle week {} ...'.format(week))
+        create_detail(arg.city, week, arg.cut, arg.input_dir, arg.output_dir)
 
 
 if __name__ == '__main__':
@@ -157,9 +163,9 @@ if __name__ == '__main__':
 
     # detail
     parser_2 = subparsers.add_parser('detail', help='create xxx_insight.sql', parents=[parent_parser])
+    parser_2.add_argument('-c', dest='cut', action='store', help='cut line number', type=int, default=30000)
     parser_2.add_argument('city', action='store', help='city code')
-    parser_2.add_argument('week', action='store', help='week string')
-    parser_2.add_argument('-c', dest='cut', action='store', help='cut line number', type=int, default=100000)
+    parser_2.add_argument('week', nargs='*', action='store', help='week string')
     parser_2.set_defaults(func=detail)
 
     if len(sys.argv) == 1:

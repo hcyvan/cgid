@@ -28,9 +28,13 @@ flask db init
 flask db migrate
 flask db upgrade
 
-> python3 csv2sql.py grid -i ./data -o ./data V0110000
-> python3 csv2sql.py detail -i ./data -o ./data -c 15000 V0110000 20180903
-> cat ./data/grid.sql |docker exec -i local-postgis psql -U postgres -d postgres
+#change to sql
+> ./script/csv2sql.py grid -i ./data/csv -o ./data/sql V0110000
+> ./script/csv2sql.py detail -i ./data/csv -o ./data/sql V0110000 20181029
+
+#insert
+> ./script/insert_sql grid -i ./data/tar -d local-postgis V0110000
+> ./script/insert_sql detail -i ./data/tar -d local-postgis V0110000 20181029 20181105
 ```
 
 

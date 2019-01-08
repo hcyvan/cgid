@@ -1,7 +1,6 @@
 import time
-import hashlib
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from sqlalchemy import func
 
 from .model import Grid, Detail, User, Access
@@ -34,7 +33,7 @@ def get_data():
             code=1003,
             msg='wrong token'
         ))
-    if time.time() - int(timestamp) > 5 * 600:
+    if time.time() - int(timestamp) > current_app.config['EXPIRE_TIME']:
         return jsonify(dict(
             code=1004,
             msg='token expired'
