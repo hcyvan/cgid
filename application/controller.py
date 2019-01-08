@@ -82,7 +82,7 @@ def get_data():
                     consumption=detail.consumption,
                     human_traffic=detail.human_traffic,
                     insight=detail.insight,
-                    inernet=detail.internet
+                    internet=detail.internet
                 )
             )
 
