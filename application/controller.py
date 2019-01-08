@@ -67,6 +67,7 @@ def get_data():
             msg='不具备访问该坐标的权限'
         )
     else:
+        print(week)
         detail = Detail.query.filter_by(city=grid.city, grid_id=grid.grid_id, week=week).first()
         if not detail:
             ret = dict(

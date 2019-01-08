@@ -51,7 +51,7 @@ def gen(cid, password):
     time.time()
     lng = 116.885482
     lat = 39.716071116
-    ts = 1535961609
+    ts = 1540828800
     timestamp = int(time.time())
     token = get_token(cid, password, timestamp)
     url = 'http://localhost:5000/api/populationInsights?lng={}&lat={}&ts={}&cid={}&timestamp={}&token={}'.format(lng,

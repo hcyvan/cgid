@@ -34,7 +34,7 @@ flask db upgrade
 
 #insert
 > ./script/insert_sql grid -i ./data/tar -d local-postgis V0110000
-> ./script/insert_sql detail -i ./data/tar -d local-postgis V0110000 20181029 20181105
+> ./script/insert_sql detail -i ./data/tar -d local-postgis V0110000  20181029 20181105 20181112 20181119 20181126
 ```
 
 
