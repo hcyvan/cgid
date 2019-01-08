@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+set -eu
+
+POSITIONAL=()
+
+PG=local-postgis
+I_DIR=./data/sql
+O_DIR=./data/tar
+
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case ${key} in
+        -d|--database)
+            PG="$2"
+            shift
+            shift
+            ;;
+        -i|--input-dir)
+            I_DIR="$2"
+            shift
+            shift
+            ;;
+        -o|--output-dir)
+            O_DIR="$2"
+            shift
+            shift
+            ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+            ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}"
+
+WARNING="Usage: compress_sql grid|detail city [week1 week2 ...]"
+
+if [[ $# -lt 2 ]]; then
+    echo "$WARNING"
+    exit 1
+fi
+
+city=$2
+case "$1" in
+    grid)
+        gzip -c ${I_DIR}/${city}_grid.sql > ${O_DIR}/${city}_grid.sql.gz
+        ;;
+    detail)
+        if [[ $# -lt 3 ]]; then
+            echo "$WARNING"
+            exit 1
+        fi
+        for week in "${@:3}"; do
+            tar_detail "$city" "$week"
+        done
+        ;;
+    *)
+        echo "$WARNING"
+        exit 1
+        ;;
+esac
+
+
+tar_detail() {
+    local city="$1"
+    local week="$2"
+    local target_file=""
+
+    for line in $(ls ${I_DIR}/${city}_${week}_detail_*.sql); do
+        line_num=$(wc -l "$line"|awk '{print $1}')
+        if [ $((line_num)) -gt 2 ]; then
+            file_name=$(basename "$line")
+            if [ "$target_file" == "" ]; then
+                target_file="${file_name}"
+            else
+                target_file="${target_file} ${file_name}"
+            fi
+        fi
+    done
+    tar czvf ${O_DIR}/${city}_${week}_detail.sql.tar.gz -C ${I_DIR} ${target_file}
+}
