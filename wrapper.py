@@ -49,8 +49,8 @@ def add_user(cid, password):
 @click.argument('password')
 def gen(cid, password):
     time.time()
-    lng = 116.885482
-    lat = 39.716071116
+    lng = 116.88
+    lat = 39.71
     ts = 1540828800
     timestamp = int(time.time())
     token = get_token(cid, password, timestamp)
