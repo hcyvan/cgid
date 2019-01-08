@@ -80,7 +80,7 @@ def get_data():
                     stay=detail.stay,
                     mobile_phone=detail.mobile_phone,
                     consumption=detail.consumption,
-                    human_tranffic=detail.human_traffic,
+                    human_traffic=detail.human_traffic,
                     insight=detail.insight,
                     inernet=detail.internet
                 )
