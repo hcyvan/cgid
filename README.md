@@ -45,7 +45,7 @@ docker network inspect local-ls
 ```
 #### Start postgresql server
 ``` shell
-docker run --restart=unless-stopped --name local-postgis --network local-lc --ip 172.18.0.10 -e POSTGRES_PASSWORD=123456 -d mdillon/postgis:10
+docker run -v /home/admin/pgdata-test:/var/lib/postgresql/data --restart=unless-stopped --name pg-cgid --network local-lc --ip 172.18.0.10 -e POSTGRES_PASSWORD=123456 -d mdillon/postgis:10
 ```
 #### Start postgresql client
 ``` shell
