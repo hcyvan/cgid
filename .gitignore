@@ -2,6 +2,7 @@
 __pycache__/
 data/
 tar/
+pg/
 venv
 env.py
 !migrations/env.py

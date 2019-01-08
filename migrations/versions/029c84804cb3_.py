@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 84289291dc72
+Revision ID: 029c84804cb3
 Revises: 
-Create Date: 2019-01-06 20:27:24.730237
+Create Date: 2019-01-08 11:50:15.785597
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ from sqlalchemy.dialects import postgresql
 import geoalchemy2
 
 # revision identifiers, used by Alembic.
-revision = '84289291dc72'
+revision = '029c84804cb3'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,6 +36,7 @@ def upgrade():
     sa.Column('human_traffic', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.Column('consumption', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.Column('mobile_phone', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('internet', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_detail_city'), 'detail', ['city'], unique=False)
