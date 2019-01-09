@@ -30,11 +30,11 @@ flask db upgrade
 
 #change to sql
 > ./script/csv2sql.py grid -i ./data/csv -o ./data/sql V0110000
-> ./script/csv2sql.py detail -i ./data/csv -o ./data/sql V0110000 20181029
+> ./script/csv2sql.py detail -i ./data/csv -o ./data/sql V0110000 20181029 20181105 20181112 20181119 20181126
 
 #compress sql
 > ./script/compress_sql grid -i ./data/sql -o ./data/tar V0110000
-> ./script/compress_sql detail -i ./data/sql -o ./data/tar V0110000 20181029 20181105
+> ./script/compress_sql detail -i ./data/sql -o ./data/tar V0110000 20181029 20181105 20181112 20181119 20181126
 
 #insert
 > ./script/insert_sql grid -i ./data/tar -d local-postgis V0110000

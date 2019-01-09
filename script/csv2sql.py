@@ -128,8 +128,8 @@ def create_detail(city, week, cut, input_dir='./', output_dir='./'):
                             row['grid_id'],
                             week,
                             stay,
-                            insight,
                             human_traffic,
+                            insight,
                             consumption,
                             mobile_phone,
                             internet)
