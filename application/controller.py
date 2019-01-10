@@ -70,8 +70,15 @@ def get_data():
         detail = Detail.query.filter_by(city=grid.city, grid_id=grid.grid_id, week=week).first()
         if not detail:
             ret = dict(
-                code=1032,
-                msg='不具备访问该时间的权限'
+                code=0,
+                data=dict(
+                    stay={},
+                    mobile_phone=[],
+                    consumption={},
+                    human_traffic={},
+                    insight={},
+                    internet=[]
+                )
             )
         else:
             ret = dict(
