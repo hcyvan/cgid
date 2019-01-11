@@ -116,24 +116,23 @@ def create_detail(city, week, cut, input_dir='./', output_dir='./'):
                     consumption = find_grid_detail(consumption_dict, city, grid_id)
                     mobile_phone = find_grid_detail(mobile_phone_dict, city, grid_id)
                     internet = find_grid_detail(internet_dict, city, grid_id)
-                    if stay or insight or human_traffic or consumption or mobile_phone:
-                        stay = stay if stay else '{}'
-                        insight = insight if insight else '{}'
-                        human_traffic = human_traffic if human_traffic else '{}'
-                        consumption = consumption if consumption else '{}'
-                        mobile_phone = mobile_phone if mobile_phone else '[]'
-                        internet = internet if internet else '[]'
-                        sql = "('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}'),\n".format(
-                            row['city'],
-                            row['grid_id'],
-                            week,
-                            stay,
-                            human_traffic,
-                            insight,
-                            consumption,
-                            mobile_phone,
-                            internet)
-                        fo.write(sql.encode())
+                    stay = stay if stay else '{}'
+                    insight = insight if insight else '{}'
+                    human_traffic = human_traffic if human_traffic else '{}'
+                    consumption = consumption if consumption else '{}'
+                    mobile_phone = mobile_phone if mobile_phone else '[]'
+                    internet = internet if internet else '[]'
+                    sql = "('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}'),\n".format(
+                        row['city'],
+                        row['grid_id'],
+                        week,
+                        stay,
+                        human_traffic,
+                        insight,
+                        consumption,
+                        mobile_phone,
+                        internet)
+                    fo.write(sql.encode())
                 fo.seek(-(len(os.linesep) + 1), os.SEEK_END)
                 fo.write(';\n'.encode())
 
