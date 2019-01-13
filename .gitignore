@@ -5,6 +5,7 @@ tar/
 pg/
 venv
 env.py
+gunicorn_config.py
 !migrations/env.py
 sql
 !sql/truncate_table.sql
