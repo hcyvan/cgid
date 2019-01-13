@@ -11,3 +11,4 @@ sql
 !sql/truncate_table.sql
 .Rhistory
 *~
+*.log

@@ -15,6 +15,12 @@ def get_data():
     cid = request.args.get('cid')
     timestamp = request.args.get('timestamp')
     token = request.args.get('token')
+    lng = request.args.get('lng')
+    lat = request.args.get('lat')
+    ts = request.args.get('ts')
+    week = timestamp2week_label(ts)
+
+    current_app.logger.info('{} {} {} {}'.format(cid, lng, lat, week))
 
     if None in [cid, timestamp, token]:
         return jsonify(dict(
@@ -52,11 +58,6 @@ def get_data():
             ))
         access.count = access.count + 1
         access.update()
-
-    lng = request.args.get('lng')
-    lat = request.args.get('lat')
-    ts = request.args.get('ts')
-    week = timestamp2week_label(ts)
 
     grid = Grid.query.filter(func.ST_Contains(
         Grid.box, 'SRID={};POINT({} {})'.format(const.get('SRID'), lng, lat))).first()

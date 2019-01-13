@@ -1,4 +1,5 @@
 from flask import Flask
+import logging
 
 from config import get_config, get_env
 
@@ -22,4 +23,11 @@ def create_app():
     configure_app(app)
     configure_extensions(app)
     app.register_blueprint(api, url_prefix='/api/')
+
+    handler = logging.FileHandler(app.config['LOG_FILE'])
+    handler.setFormatter(logging.Formatter(
+        '[%(asctime)s] %(levelname)s %(module)s %(funcName)s: %(message)s'
+    ))
+    app.logger.addHandler(handler)
+
     return app
