@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import gzip
 import sys
 import csv
 import argparse
@@ -142,10 +143,27 @@ def grid(arg):
 
 
 def detail(arg):
-    pass
     for week in arg.week:
         print('Handle week {} ...'.format(week))
         create_detail(arg.city, week, arg.cut, arg.input_dir, arg.output_dir)
+
+
+def detail_update(arg):
+    sql_path = os.path.join(arg.output_dir, arg.sql)
+    for csv_file in os.listdir(arg.input_dir):
+        csv_path = os.path.join(arg.input_dir, csv_file)
+        print('Handling {} ...'.format(csv_file))
+        city, week, item, = csv_file.split('.')[0].split('_')
+        with open(csv_path) as fi, gzip.open(sql_path, 'wb') as fo:
+            for line in csv.DictReader(fi):
+                grid_id = line.pop('grid_id')
+                stay = json.dumps(line)
+                sql = "UPDATE detail SET {}='{}' WHERE city='{}' and grid_id='{}' and week='{}';\n".format(item,
+                                                                                                         stay,
+                                                                                                         city,
+                                                                                                         grid_id,
+                                                                                                         week)
+                fo.write(sql.encode())
 
 
 if __name__ == '__main__':
@@ -161,11 +179,17 @@ if __name__ == '__main__':
     parser_1.set_defaults(func=grid)
 
     # detail
-    parser_2 = subparsers.add_parser('detail', help='create xxx_insight.sql', parents=[parent_parser])
+    parser_2 = subparsers.add_parser('detail', help='create xxx_detail.sql', parents=[parent_parser])
     parser_2.add_argument('-c', dest='cut', action='store', help='cut line number', type=int, default=30000)
     parser_2.add_argument('city', action='store', help='city code')
     parser_2.add_argument('week', nargs='*', action='store', help='week string')
     parser_2.set_defaults(func=detail)
+
+    # detail-update
+    parser_3 = subparsers.add_parser('detail-update', help='create update sql', parents=[parent_parser])
+    parser_3.add_argument('-c', dest='cut', action='store', help='cut line number', type=int, default=0)
+    parser_3.add_argument('-s', dest='sql', action='store', help='update sql file', default='update.sql')
+    parser_3.set_defaults(func=detail_update)
 
     if len(sys.argv) == 1:
         args_list = ['-h']
