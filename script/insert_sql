@@ -2,7 +2,7 @@
 
 set -eu
 
-readonly WARNING="Usage: insert_sql grid|detail|dupdate [-s sql] city [week1 week2 ...]"
+readonly WARNING="Usage: insert_sql grid|detail|dupdate|all [-s sql] city [week1 week2 ...]"
 if [[ $# -eq 0 ]]; then
     echo "$WARNING"
     exit 1
@@ -66,6 +66,20 @@ case "$1" in
         ;;
     dupdate)
         gunzip -c "$SQL" |docker exec -i ${PG} psql -U postgres -d postgres
+        ;;
+    all)
+        for file in $(ls "$I_DIR");do
+            if [[ "$file" == *grid.sql.gz ]]; then
+                echo "insert $file"
+                gunzip -c "$I_DIR/$file" |docker exec -i ${PG} psql -U postgres -d postgres
+            elif [[ "$file" == *detail.sql.tar.gz ]]; then
+                echo "insert $file"
+                tar tf "$I_DIR/$file"  | while read line; do
+                    echo "....insert $line"
+                    tar xzOf "$I_DIR/$file" "$line"|docker exec -i ${PG} psql -U postgres -d postgres
+                done
+            fi
+        done
         ;;
     *)
         echo "$WARNING"
