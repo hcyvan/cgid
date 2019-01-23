@@ -41,7 +41,7 @@ flask db upgrade
 > ./script/insert_sql detail -i ./data/tar -d local-postgis V0110000  20181029 20181105 20181112 20181119 20181126
 
 # update
-> ./script/csv2sql.py detail-update -i ./data/csv/update1 -d local-postgis -s ./data/tar/update/update1.sql.gz
+> ./script/csv2sql.py detail-update -d local-postgis -s ./data/tar/update/update1.sql.gz
 
 ```
 
