@@ -220,7 +220,7 @@ def sync_csv(arg):
             print('** handling grid ...')
             shutil.copyfile(os.path.join(arg.input_dir, '{}.csv'.format(grid)),
                             os.path.join(city_csv_path, '{}.csv'.format(grid)))
-            # trans_grid(k, city_csv_path, city_sql_path)
+            trans_grid(city, city_csv_path, city_sql_path)
             print('****** GZIP grid sql')
             with open(os.path.join(city_sql_path, '{}.sql'.format(grid))) as fi, gzip.open(
                     os.path.join(tar_path, '{}.sql.gz'.format(grid)), 'wb') as fo:
@@ -232,7 +232,7 @@ def sync_csv(arg):
                 print('**** week: {}'.format(week))
                 for data_file in data_files:
                     shutil.copyfile(os.path.join(arg.input_dir, data_file), os.path.join(city_csv_path, data_file))
-                # create_detail(k, week, 30000, city_csv_path, city_sql_path)
+                create_detail(city, week, 30000, city_csv_path, city_sql_path)
                 print('****** TAR detail sql')
                 with tarfile.open(os.path.join(tar_path, '{}_{}_detail.sql.tar.gz'.format(city, week)), 'w:gz') as f:
                     for city_week_detail in os.listdir(city_sql_path):
