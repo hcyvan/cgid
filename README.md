@@ -46,6 +46,10 @@ flask db upgrade
 
 # sync-csv
 ./script/csv2sql.py sync-csv -i xxx -o ./data
+
+#demo
+./script/csv2sql.py sync-csv -i /home/xx/xx/xx/呼和浩特_徐州_常州_苏州_南通_201811 -o ./data
+scp ./data/tar/t20190301/* admin@xx.xx.xx.xx:/home/admin/xx/xx/t20190301
 ```
 
 
