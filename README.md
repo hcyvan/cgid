@@ -48,6 +48,7 @@ flask db upgrade
 ./script/csv2sql.py sync-csv -i xxx -o ./data
 
 #demo
+./script/sync_csv.sh /home/c509/ext/xx/xx/data/成都_昆明_贵阳_乌鲁木齐_all/
 ./script/csv2sql.py sync-csv -i /home/xx/xx/xx/呼和浩特_徐州_常州_苏州_南通_201811 -o ./data
 scp ./data/tar/t20190301/* admin@xx.xx.xx.xx:/home/admin/xx/xx/t20190301
 ```
@@ -85,3 +86,8 @@ docker run -p 80:80 -e "PGADMIN_DEFAULT_EMAIL=user@domain.com" -e "PGADMIN_DEFAU
 + map_grid表center字段是否必须?
 + week字段是每周第一天?怎么定位到这个字符串?
 + grid_id字段中'-1'需要特别注意么?
+
+## todo
++ 洛阳_武汉_深圳_12_10 没有grid文件
++ 北京_上海_天津_南京_济南_04_10 没有grid文件
++ 南通_盐城_温州_嘉兴_绍兴_金华_台州_12_10 没有internet数据

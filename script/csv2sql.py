@@ -10,6 +10,7 @@ import argparse
 import json
 import math
 import shutil
+import glob
 
 SRID = '4326'
 
@@ -189,6 +190,8 @@ def sync_csv(arg):
     file_map = dict()
     for f in files:
         label = os.path.splitext(f)[0].split('_')
+        if len(label) < 2:
+            continue
         if file_map.get(label[0], None) is None:
             file_map[label[0]] = dict()
         if label[1] == 'grid':
@@ -218,26 +221,40 @@ def sync_csv(arg):
         if grid:
             grid = os.path.splitext(grid)[0]
             print('** handling grid ...')
-            shutil.copyfile(os.path.join(arg.input_dir, '{}.csv'.format(grid)),
-                            os.path.join(city_csv_path, '{}.csv'.format(grid)))
-            trans_grid(city, city_csv_path, city_sql_path)
-            print('****** GZIP grid sql')
-            with open(os.path.join(city_sql_path, '{}.sql'.format(grid))) as fi, gzip.open(
-                    os.path.join(tar_path, '{}.sql.gz'.format(grid)), 'wb') as fo:
-                fo.write(fi.read().encode())
+            tar_sql = os.path.join(tar_path, '{}.sql.gz'.format(grid))
+            if os.path.exists(tar_sql):
+                print('****** {} exist!'.format(tar_sql))
+            else:
+                shutil.copyfile(os.path.join(arg.input_dir, '{}.csv'.format(grid)),
+                                os.path.join(city_csv_path, '{}.csv'.format(grid)))
+                trans_grid(city, city_csv_path, city_sql_path)
+                print('****** GZIP grid sql')
+                with open(os.path.join(city_sql_path, '{}.sql'.format(grid))) as fi, gzip.open(
+                        os.path.join(tar_path, '{}.sql.gz'.format(grid)), 'wb') as fo:
+                    fo.write(fi.read().encode())
         data = v.get('data', None)
         if data:
             print('** handling data ...')
             for week, data_files in data.items():
                 print('**** week: {}'.format(week))
-                for data_file in data_files:
-                    shutil.copyfile(os.path.join(arg.input_dir, data_file), os.path.join(city_csv_path, data_file))
-                create_detail(city, week, 30000, city_csv_path, city_sql_path)
-                print('****** TAR detail sql')
-                with tarfile.open(os.path.join(tar_path, '{}_{}_detail.sql.tar.gz'.format(city, week)), 'w:gz') as f:
-                    for city_week_detail in os.listdir(city_sql_path):
-                        if city_week_detail.startswith('{}_{}_detail'.format(city, week)):
-                            f.add(os.path.join(city_sql_path, city_week_detail), arcname=city_week_detail)
+                tar_detail = os.path.join(tar_path, '{}_{}_detail.sql.tar.gz'.format(city, week))
+                if os.path.exists(tar_detail):
+                    print('****** {} exist!'.format(tar_detail))
+                else:
+                    for data_file in data_files:
+                        shutil.copyfile(os.path.join(arg.input_dir, data_file), os.path.join(city_csv_path, data_file))
+                    create_detail(city, week, 30000, city_csv_path, city_sql_path)
+                    print('****** TAR detail sql')
+                    with tarfile.open(tar_detail, 'w:gz') as f:
+                        for city_week_detail in os.listdir(city_sql_path):
+                            if city_week_detail.startswith('{}_{}_detail'.format(city, week)):
+                                f.add(os.path.join(city_sql_path, city_week_detail), arcname=city_week_detail)
+                    print('****** remove csv and sql file...')
+                    for data_file in data_files:
+                        os.remove(os.path.join(city_csv_path, data_file))
+                    sql_files = os.path.join(city_sql_path, '{}_{}_detail*sql'.format(city, week))
+                    for sql_file in glob.glob(sql_files):
+                        os.remove(sql_file)
 
 
 if __name__ == '__main__':
