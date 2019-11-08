@@ -68,18 +68,26 @@ case "$1" in
         gunzip -c "$SQL" |docker exec -i ${PG} psql -U postgres -d postgres
         ;;
     all)
+        total=$(ls "$I_DIR"|wc -l)
+        i=0
         for file in $(ls "$I_DIR");do
+            start=$(date "+%s")
             if [[ "$file" == *grid.sql.gz ]]; then
                 echo "insert $file"
-                gunzip -c "$I_DIR/$file" |docker exec -i ${PG} psql -U postgres -d postgres
+#                gunzip -c "$I_DIR/$file" |docker exec -i ${PG} psql -U postgres -d postgres
             elif [[ "$file" == *detail.sql.tar.gz ]]; then
                 echo "insert $file"
                 tar tf "$I_DIR/$file"  | while read line; do
                     echo "....insert $line"
-                    tar xzOf "$I_DIR/$file" "$line"|docker exec -i ${PG} psql -U postgres -d postgres
+#                    tar xzOf "$I_DIR/$file" "$line"|docker exec -i ${PG} psql -U postgres -d postgres
                 done
             fi
+            now=$(date "+%s")
+            time=$((now-start))
+            i=$((i+1))
+            echo "TIME_USED:$time seconds. $i/$total."
         done
+
         ;;
     *)
         echo "$WARNING"

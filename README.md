@@ -12,6 +12,7 @@ _change the content of env.py_
 #### run app
 ```bash
 FLASK_APP=application FLASK_ENV=development flask run
+FLASK_APP=wrapper FLASK_ENV=development flask create-url
 ```
 
 ## API
