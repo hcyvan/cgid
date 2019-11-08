@@ -74,12 +74,17 @@ case "$1" in
             start=$(date "+%s")
             if [[ "$file" == *grid.sql.gz ]]; then
                 echo "insert $file"
-#                gunzip -c "$I_DIR/$file" |docker exec -i ${PG} psql -U postgres -d postgres
-            elif [[ "$file" == *detail.sql.tar.gz ]]; then
+                gunzip -c "$I_DIR/$file" |docker exec -i ${PG} psql -U postgres -d postgres
+            elif [[ "$file" == *deta
+
+
+
+
+            il.sql.tar.gz ]]; then
                 echo "insert $file"
                 tar tf "$I_DIR/$file"  | while read line; do
                     echo "....insert $line"
-#                    tar xzOf "$I_DIR/$file" "$line"|docker exec -i ${PG} psql -U postgres -d postgres
+                    tar xzOf "$I_DIR/$file" "$line"|docker exec -i ${PG} psql -U postgres -d postgres
                 done
             fi
             now=$(date "+%s")
