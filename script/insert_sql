@@ -75,12 +75,7 @@ case "$1" in
             if [[ "$file" == *grid.sql.gz ]]; then
                 echo "insert $file"
                 gunzip -c "$I_DIR/$file" |docker exec -i ${PG} psql -U postgres -d postgres
-            elif [[ "$file" == *deta
-
-
-
-
-            il.sql.tar.gz ]]; then
+            elif [[ "$file" == *detail.sql.tar.gz ]]; then
                 echo "insert $file"
                 tar tf "$I_DIR/$file"  | while read line; do
                     echo "....insert $line"
