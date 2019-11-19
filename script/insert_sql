@@ -87,7 +87,6 @@ case "$1" in
             i=$((i+1))
             echo "TIME_USED:$time seconds. $i/$total."
         done
-
         ;;
     *)
         echo "$WARNING"
